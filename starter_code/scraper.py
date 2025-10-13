@@ -189,6 +189,6 @@ if __name__ == "__main__":
     # Save to CSV
     talks_df = pd.DataFrame(talks_data)
     paragraphs_df = pd.DataFrame(paragraphs_data)
-    talks_df.to_csv('SCRAPED_TALKS.csv', index=False)
-    paragraphs_df.to_csv('SCRAPED_PARAGRAPHS.csv', index=False)
+    talks_df.to_csv('../SCRAPED_TALKS.csv', index=False)
+    paragraphs_df.to_csv('../SCRAPED_PARAGRAPHS.csv', index=False)
     print("End Time:", datetime.now().strftime("%H:%M:%S"))

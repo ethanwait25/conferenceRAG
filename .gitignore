@@ -1,0 +1,10 @@
+.venv/
+venv/
+env/
+
+free_embeddings/
+openai_embeddings/
+
+starter_code/config.json
+SCRAPED_PARAGRAPHS.csv
+SCRAPED_TALKS.csv

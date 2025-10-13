@@ -59,27 +59,27 @@ def get_embedding(texts, output_dir, model="text-embedding-3-small", max_tokens=
     return embeddings
 
 if __name__ == "__main__":
-    output_dir = "openai"
+    output_dir = "../openai_embeddings"
 
     # Process talks.csv
-    df = pd.read_csv("SCRAPED_TALKS.csv")
+    df = pd.read_csv("../SCRAPED_TALKS.csv")
     df['embedding'] = get_embedding(df['text'].tolist(), output_dir, model='text-embedding-3-small')
     output_talks = os.path.join(output_dir, 'openai_talks.csv')
     df.to_csv(output_talks, index=False)
 
     # Process paragraphs.csv
-    df = pd.read_csv("SCRAPED_PARAGRAPHS.csv")
+    df = pd.read_csv("../SCRAPED_PARAGRAPHS.csv")
     df['embedding'] = get_embedding(df['text'].tolist(), output_dir, model='text-embedding-3-small')
     output_paragraphs = os.path.join(output_dir, 'openai_paragraphs.csv')
     df.to_csv(output_paragraphs, index=False)
 
-    file_to_delete = "SCRAPED_TALKS.csv"
-    if os.path.exists(file_to_delete):
-        os.remove(file_to_delete)
-        print(f"Deleted file: {file_to_delete}")
-    file_to_delete = "SCRAPED_PARAGRAPHS.csv"
-    if os.path.exists(file_to_delete):
-        os.remove(file_to_delete)
-        print(f"Deleted file: {file_to_delete}")
+    # file_to_delete = "../SCRAPED_TALKS.csv"
+    # if os.path.exists(file_to_delete):
+    #     os.remove(file_to_delete)
+    #     print(f"Deleted file: {file_to_delete}")
+    # file_to_delete = "../SCRAPED_PARAGRAPHS.csv"
+    # if os.path.exists(file_to_delete):
+    #     os.remove(file_to_delete)
+    #     print(f"Deleted file: {file_to_delete}")
 
     

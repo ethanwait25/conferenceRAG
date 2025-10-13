@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 import shutil
 
-def generate_embeddings(csv_file, column_name, output_dir="output_embeddings"):
+def generate_embeddings(csv_file, column_name, output_dir):
     """Generates and adds sentence embeddings to a CSV file with optimized performance."""
     try:
         # Create output directory if it doesn't exist
@@ -44,10 +44,10 @@ def generate_embeddings(csv_file, column_name, output_dir="output_embeddings"):
 if __name__ == "__main__":
     # Create a timestamped output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = "free"
+    output_dir = "../free_embeddings"
 
     print("Start talks:", datetime.now().strftime("%H:%M:%S"))
-    generate_embeddings("SCRAPED_TALKS.csv", "talk", output_dir)
+    generate_embeddings("../SCRAPED_TALKS.csv", "talk", output_dir)
     print("Start paragraphs:", datetime.now().strftime("%H:%M:%S"))
-    generate_embeddings("SCRAPED_PARAGRAPHS.csv", "paragraph", output_dir)
+    generate_embeddings("../SCRAPED_PARAGRAPHS.csv", "paragraph", output_dir)
     print("Finish:", datetime.now().strftime("%H:%M:%S"))
