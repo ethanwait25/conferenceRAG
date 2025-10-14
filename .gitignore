@@ -2,6 +2,8 @@
 venv/
 env/
 
+config.json
+
 free_embeddings/
 openai_embeddings/
 

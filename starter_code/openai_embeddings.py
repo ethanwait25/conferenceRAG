@@ -5,7 +5,7 @@ from datetime import datetime
 import json
 import os
 
-with open("config.json") as config:
+with open("../config.json") as config:
     openaiKey = json.load(config)["openaiKey"]
 
 OpenAI.api_key = openaiKey

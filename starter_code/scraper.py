@@ -11,7 +11,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 import json
 
-with open("config.json") as config:
+with open("../config.json") as config:
     years = json.load(config)["years"]
 
 # Configure logging

@@ -91,7 +91,7 @@ def cluster_paragraph_embeddings(csv_file, k, prefix):
         cluster_df = pd.DataFrame(cluster_data)
         
         # Save to CSV
-        output_file = "../" + prefix + '_' + str(k) + '_clusters.csv'
+        output_file = prefix + '_' + str(k) + '_clusters.csv'
         cluster_df.to_csv(os.path.join(prefix, output_file), index=False)
         logging.info(f"Cluster embeddings saved to {output_file}")
         
@@ -104,6 +104,6 @@ def cluster_paragraph_embeddings(csv_file, k, prefix):
 # Execute the clustering
 if __name__ == "__main__":
     print("Start paragraphs:", datetime.now().strftime("%H:%M:%S"))
-    cluster_paragraph_embeddings("../free_paragraphs.csv", 3, "free")
-    cluster_paragraph_embeddings("../openai_paragraphs.csv", 3, "openai")
+    cluster_paragraph_embeddings("free_paragraphs.csv", 3, "../free_embeddings")
+    cluster_paragraph_embeddings("openai_paragraphs.csv", 3, "../openai_embeddings")
     print("Finish:", datetime.now().strftime("%H:%M:%S"))
