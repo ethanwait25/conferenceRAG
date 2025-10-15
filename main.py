@@ -25,7 +25,7 @@ class ConferenceRAG():
         self.init_openai()
         self.transformer = SentenceTransformer('all-MiniLM-L6-v2')
         self.load_embedding("oai-pg")
-        self.prompt_mode = "q"
+        self.res_mode = "q"
 
     def init_openai(self):
         with open("config.json") as config:
@@ -39,7 +39,10 @@ class ConferenceRAG():
     def handle_query(self, query):
         emb = self.get_query_embedding(query)
         closest = self.get_n_closest(emb, N_CLOSEST)
-        return self.get_rag(query, closest)
+        if self.res_mode == "r":
+            return self.get_recommendations(closest)
+        else:
+            return self.get_rag(query, closest)
     
     def get_n_closest(self, emb, n):
         X = np.stack(self.emb["embedding"].to_numpy()).astype(np.float32)
@@ -67,8 +70,15 @@ class ConferenceRAG():
             res = self.oai_client.embeddings.create(input=query, model="text-embedding-3-small")
             return np.array([item.embedding for item in res.data])
 
+    def get_recommendations(self, closest):
+        closest = closest[['title', 'speaker', 'year']].drop_duplicates()
+        recs = []
+        for _, row in closest.iterrows():
+            recs.append(f"\"{row['title']}\" - {row['speaker']} ({row['year']})")
+        return "\n".join(recs)
+    
     def get_rag(self, query, closest):
-        prompt_config = "rag_prompt_quote" if self.prompt_mode == "q" else "rag_prompt_explain"
+        prompt_config = "rag_prompt_quote" if self.res_mode == "q" else "rag_prompt_explain"
         with open("config.json") as config:
             base_prompt = json.load(config)[prompt_config]
         
@@ -104,7 +114,7 @@ class ConferenceRAG():
 
         while True:
             try:
-                line = input(f"{self.emb_name}:{self.prompt_mode} >>> ").lower()
+                line = input(f"{self.emb_name}:{self.res_mode} >>> ").lower()
                 if line in ('q', 'quit', 'exit'):
                     break
 
@@ -153,13 +163,13 @@ class ConferenceRAG():
         return strat_ch
     
     def chres(self, choice):
-        if not choice or choice not in ["q", "e"]:
-            print("'q' = quotes | 'e' = explain")
+        if not choice or choice not in ["q", "e", "r"]:
+            print("'q' = quotes | 'e' = explain | 'r' = recommend")
             choice = input(">>> Response type: ").lower()
-            while choice not in ("q", "e"):
-                print("'q' = quotes | 'e' = explain")
+            while choice not in ("q", "e", "r"):
+                print("'q' = quotes | 'e' = explain | 'r' = recommend")
                 choice = input(">>> Response type: ").lower()
-        self.prompt_mode = choice
+        self.res_mode = choice
     
     def clear_console(self):
         if os.name == "nt":
